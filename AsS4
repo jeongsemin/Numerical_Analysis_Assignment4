@@ -1,0 +1,106 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<conio.h>
+#include<math.h>
+#define f(x) (1 / x)
+#define f2(x) (-x*x)
+void trapezoidalRule() {
+	double h, result = 0.0, i, a, b;
+	int n;
+	// trapezoidal Rule : h/2[f(a) + f(b)]
+	// a (Numeric) : Limit of integration (1st)
+	// b (Numeric) : Limit of integration (2nd)
+	// n (int) : Number of subintervals.
+
+	printf("Enter the lower and upper limits of the integral:");
+	scanf("%lf %lf", &a, &b);
+	// Get lower and upper
+
+	printf("Enter the number of subintervals:");
+	scanf("%d", &n);
+	// Get subintervals
+
+	h = (float)(b - a) / n;
+
+	result = result + f(a) + f(b);
+	for (i = a + h; i < b;) {
+		result = result + (2*f(i));
+		i = i + h;
+	}
+	result = result * (h / 2);
+	printf("Result : %lf\n", result);
+}
+
+void SimsonRule()
+{
+	double h, result = 0.0, i, a, b;
+	int n;
+	// Simson's Rule : h/3[f(a) + 4f(x1) + f(b)]
+	// a (Numeric) : Limit of integration (1st)
+	// b (Numeric) : Limit of integration (2nd)
+	// n (int) : Number of subintervals.
+
+	printf("Enter the lower and upper limits of the integral:");
+	scanf("%lf %lf", &a, &b);
+	// Get lower and upper
+
+	printf("Enter the number of subintervals:");
+	scanf("%d", &n);
+	// Get subintervals
+
+	h = (float)(b - a) / n;
+
+	result = result + exp(f2(a)) + exp(f2(b));
+	
+	for (i = a + h; i < b;)
+	{
+		result = result + (4 * exp(f2(i)));
+		i = i + (2 * h);
+	}
+	for (i = a + (2 * h); i < b;)
+	{
+		result = result + (2 * exp(f2(i)));
+		i = i + (2 * h);
+	}
+
+	result = result * (h / 3);
+	printf("Result : %lf\n", result);
+}
+
+int main()
+{
+	int n;
+
+	while (1) {
+		printf("Select Number 1: trapezoidalRule 2:SimsonRule 3:Stop : ");
+		scanf("%d", &n);
+
+		switch (n) {
+		case 1:
+			trapezoidalRule();
+			break;
+		case 2:
+			SimsonRule();
+			break;
+		case 3:
+			printf("Done program");
+			return 0;
+		}
+	}
+}
+
+/*
+Result
+-----if N=1-----
+Trapeziodal		f	=	0.750000
+Simpson's		f2	=	0.678877
+
+-----if N=2-----
+Trapeziodal		f	=	0.708333
+Simpson's		f2	=	0.829944
+
+-----if N=4-----
+Trapeziodal		f	=	0.697024
+Simpson's		f2	=	0.881812
+
+*/
